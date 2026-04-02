@@ -1,0 +1,158 @@
+---
+import DefaultLayout from './DefaultLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  date?: Date;
+  tags?: string[];
+  github?: string;
+}
+
+const { title, description, date, tags, github } = Astro.props;
+---
+
+<DefaultLayout title={title} description={description}>
+  <article class="project">
+    <header class="project-header">
+      <h1>{title}</h1>
+      {description && <p class="description">{description}</p>}
+      <div class="meta">
+        {
+          date && (
+            <time datetime={date.toISOString()}>
+              {date.toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+          )
+        }
+        {
+          tags && tags.length > 0 && (
+            <ul class="tags">
+              {tags.map((tag) => (
+                <li class="tag">{tag}</li>
+              ))}
+            </ul>
+          )
+        }
+        {
+          github && (
+            <a href={github} target="_blank" rel="noopener noreferrer" class="github-link">
+              GitHub →
+            </a>
+          )
+        }
+      </div>
+    </header>
+    <div class="content">
+      <slot />
+    </div>
+  </article>
+</DefaultLayout>
+
+<style>
+  .project {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  .project-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #334155;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #f1f5f9;
+  }
+
+  .description {
+    color: #94a3b8;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: #64748b;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+  }
+
+  .tag {
+    background-color: #1e293b;
+    color: #60a5fa;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    border: 1px solid #334155;
+  }
+
+  .github-link {
+    font-weight: 500;
+  }
+
+  .content :global(h2) {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .content :global(h3) {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin: 1.25rem 0 0.5rem;
+  }
+
+  .content :global(p) {
+    line-height: 1.75;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
+  }
+
+  .content :global(ul),
+  .content :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    color: #cbd5e1;
+  }
+
+  .content :global(li) {
+    margin-bottom: 0.25rem;
+    line-height: 1.7;
+  }
+
+  .content :global(code) {
+    background-color: #1e293b;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.875em;
+  }
+
+  .content :global(pre) {
+    background-color: #1e293b;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+
+  .content :global(pre code) {
+    background: none;
+    padding: 0;
+  }
+</style>

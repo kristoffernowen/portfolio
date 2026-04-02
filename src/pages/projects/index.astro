@@ -1,0 +1,55 @@
+---
+import DefaultLayout from '../../layouts/DefaultLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Search from '../../components/Search.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0)
+);
+---
+
+<DefaultLayout title="Projekt" description="En samling av mina projekt inom systemutveckling.">
+  <h1>Projekt</h1>
+  <p class="subtitle">Projekt jag har arbetat med eller byggt på fritiden.</p>
+
+  <Search />
+
+  <div class="project-grid">
+    {
+      projects.map((project) => (
+        <div
+          data-search-card
+          data-search-text={[project.data.title, project.data.description, ...(project.data.tags ?? [])].join(' ')}
+        >
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            tags={project.data.tags}
+            slug={project.slug}
+            date={project.data.date}
+          />
+        </div>
+      ))
+    }
+  </div>
+</DefaultLayout>
+
+<style>
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: #94a3b8;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-grid {
+    display: grid;
+    gap: 1rem;
+  }
+</style>

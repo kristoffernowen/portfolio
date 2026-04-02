@@ -1,0 +1,67 @@
+---
+// Search component – client-side filtering of project cards
+// The actual search logic is driven by search-index.ts
+---
+
+<div class="search-wrapper">
+  <label for="search-input" class="sr-only">Sök projekt</label>
+  <input
+    id="search-input"
+    type="search"
+    placeholder="Sök projekt..."
+    autocomplete="off"
+    class="search-input"
+  />
+</div>
+
+<script>
+  const input = document.getElementById('search-input') as HTMLInputElement | null;
+  const cards = document.querySelectorAll<HTMLElement>('[data-search-card]');
+
+  input?.addEventListener('input', () => {
+    const query = input.value.toLowerCase().trim();
+    cards.forEach((card) => {
+      const text = card.dataset.searchText?.toLowerCase() ?? '';
+      card.style.display = !query || text.includes(query) ? '' : 'none';
+    });
+  });
+</script>
+
+<style>
+  .search-wrapper {
+    margin-bottom: 1.5rem;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .search-input {
+    width: 100%;
+    max-width: 480px;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background-color: #1e293b;
+    color: #e2e8f0;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-input::placeholder {
+    color: #64748b;
+  }
+
+  .search-input:focus {
+    border-color: #60a5fa;
+  }
+</style>

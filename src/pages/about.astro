@@ -1,0 +1,72 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro';
+---
+
+<DefaultLayout title="Om mig" description="Lite om Kristoffer Nowén – bakgrund och intressen.">
+  <article class="about">
+    <h1>Om mig</h1>
+
+    <p>
+      Jag är en systemutvecklare med starkt fokus på backend-utveckling och API-design, framförallt inom .NET-ekosystemet.
+      Jag brinner för välstrukturerad kod, testbarhet och att bygga lösningar som faktiskt håller i längden.
+    </p>
+
+    <h2>Bakgrund</h2>
+    <p>
+      Jag har erfarenhet av att bygga och underhålla produktionssystem med .NET, REST-APIer, mikrotjänster
+      och molnbaserade lösningar. Jag gillar att arbeta nära produkten och förstå kontexten bakom de tekniska besluten.
+    </p>
+
+    <h2>Teknik jag arbetar med</h2>
+    <ul>
+      <li>.NET / C#</li>
+      <li>ASP.NET Core &amp; REST API</li>
+      <li>Entity Framework Core / SQL Server</li>
+      <li>Docker &amp; CI/CD</li>
+      <li>Astro / TypeScript</li>
+    </ul>
+
+    <h2>Kontakt</h2>
+    <p>
+      Hittar du mig på <a href="https://github.com/kristoffernowen" target="_blank" rel="noopener noreferrer">GitHub</a>
+      och <a href="https://www.linkedin.com/in/kristoffernowen" target="_blank" rel="noopener noreferrer">LinkedIn</a>.
+    </p>
+  </article>
+</DefaultLayout>
+
+<style>
+  .about {
+    max-width: 680px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  p {
+    color: #94a3b8;
+    line-height: 1.8;
+    margin-bottom: 0.75rem;
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    color: #94a3b8;
+    line-height: 1.8;
+  }
+
+  li {
+    margin-bottom: 0.2rem;
+  }
+</style>

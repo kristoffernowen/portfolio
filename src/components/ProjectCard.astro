@@ -1,0 +1,107 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  tags?: string[];
+  slug: string;
+  date?: Date;
+}
+
+const { title, description, tags, slug, date } = Astro.props;
+---
+
+<article class="project-card">
+  <a href={`/projects/${slug}`} class="card-link">
+    <div class="card-body">
+      <h2 class="card-title">{title}</h2>
+      {date && (
+        <time class="card-date" datetime={date.toISOString()}>
+          {date.toLocaleDateString('sv-SE', { year: 'numeric', month: 'long' })}
+        </time>
+      )}
+      <p class="card-description">{description}</p>
+      {tags && tags.length > 0 && (
+        <ul class="card-tags">
+          {tags.map((tag) => <li class="tag">{tag}</li>)}
+        </ul>
+      )}
+    </div>
+    <span class="card-arrow">→</span>
+  </a>
+</article>
+
+<style>
+  .project-card {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .project-card:hover {
+    border-color: #60a5fa;
+    transform: translateY(-2px);
+  }
+
+  .card-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    gap: 1rem;
+  }
+
+  .card-link:hover {
+    text-decoration: none;
+  }
+
+  .card-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin-bottom: 0.25rem;
+  }
+
+  .card-date {
+    font-size: 0.8rem;
+    color: #64748b;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-description {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+  }
+
+  .tag {
+    background-color: #0f172a;
+    color: #60a5fa;
+    padding: 0.15rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.72rem;
+    border: 1px solid #334155;
+  }
+
+  .card-arrow {
+    color: #60a5fa;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+</style>
