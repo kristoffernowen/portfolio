@@ -1,0 +1,71 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro';
+---
+
+<DefaultLayout title="Mitt arbetssätt" description="Hur jag tänker kring mjukvaruutveckling och ingenjörsmässigt arbete.">
+  <article class="engineering">
+    <h1>Mitt arbetssätt</h1>
+
+    <p>
+      Jag ser mjukvaruutveckling som ett hantverk där teknik, struktur och kommunikation samverkar.
+      Här beskriver jag de principer och värderingar som styr mitt arbete.
+    </p>
+
+    <h2>Enkelhet före komplexitet</h2>
+    <p>
+      Den enklaste lösningen som möter kraven är nästan alltid den rätta. Onödig abstraktion och
+      för tidig optimering gör kod svårare att förstå och underhålla. Jag strävar efter kod som är
+      lätt att läsa för den som kommer efter mig – inklusive mig själv.
+    </p>
+
+    <h2>Testbarhet som design-signal</h2>
+    <p>
+      Om koden är svår att testa är det ofta ett tecken på ett designproblem. Tester hjälper mig att
+      tänka igenom gränssnitt, separera ansvar och dokumentera beteende på ett levande sätt.
+    </p>
+
+    <h2>Iterativt och inkrementellt</h2>
+    <p>
+      Jag föredrar att leverera i små, verifierbara steg framför långa utvecklingscykler.
+      Snabb feedback från riktiga användare är mer värd än månader av spekulativ planering.
+    </p>
+
+    <h2>Förstå problemet innan du löser det</h2>
+    <p>
+      Tekniken är ett medel, inte ett mål. Jag lägger tid på att förstå affärskontexten och
+      användarnas faktiska behov innan jag börjar koda.
+    </p>
+
+    <h2>Continuous improvement</h2>
+    <p>
+      Kodbasen ska alltid lämnas lite bättre än jag hittade den. Refaktorering är en naturlig del
+      av vardagen, inte en engångshändelse.
+    </p>
+  </article>
+</DefaultLayout>
+
+<style>
+  .engineering {
+    max-width: 680px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  p {
+    color: #94a3b8;
+    line-height: 1.8;
+    margin-bottom: 0.75rem;
+  }
+</style>
