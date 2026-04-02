@@ -1,5 +1,5 @@
 ---
-import DefaultLayout from './DefaultLayout.astro';
+import DefaultLayout from "./DefaultLayout.astro";
 
 interface Props {
   title: string;
@@ -7,9 +7,10 @@ interface Props {
   date?: Date;
   tags?: string[];
   github?: string;
+  live?: string;
 }
 
-const { title, description, date, tags, github } = Astro.props;
+const { title, description, date, tags, github, live } = Astro.props as Props;
 ---
 
 <DefaultLayout title={title} description={description}>
@@ -21,7 +22,11 @@ const { title, description, date, tags, github } = Astro.props;
         {
           date && (
             <time datetime={date.toISOString()}>
-              {date.toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' })}
+              {date.toLocaleDateString("sv-SE", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
             </time>
           )
         }
@@ -35,10 +40,29 @@ const { title, description, date, tags, github } = Astro.props;
           )
         }
         {
-          github && (
-            <a href={github} target="_blank" rel="noopener noreferrer" class="github-link">
-              GitHub →
-            </a>
+          (github || live) && (
+            <div class="project-links">
+              {github && (
+                <a
+                  href={github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="github-link"
+                >
+                  GitHub →
+                </a>
+              )}
+              {live && (
+                <a
+                  href={live}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="live-link"
+                >
+                  Live Demo →
+                </a>
+              )}
+            </div>
           )
         }
       </div>
@@ -100,6 +124,16 @@ const { title, description, date, tags, github } = Astro.props;
   }
 
   .github-link {
+    font-weight: 500;
+  }
+
+  .project-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .live-link {
     font-weight: 500;
   }
 
