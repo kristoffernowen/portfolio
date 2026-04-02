@@ -1,9 +1,10 @@
 ---
+const baseUrl = import.meta.env.BASE_URL;
 const navLinks = [
-  { href: '/', label: 'Hem' },
-  { href: '/projects', label: 'Projekt' },
-  { href: '/about', label: 'Om mig' },
-  { href: '/engineering-approach', label: 'Mitt arbetssätt' },
+  { path: "", label: "Hem" },
+  { path: "projects/", label: "Projekt" },
+  { path: "about/", label: "Om mig" },
+  { path: "engineering-approach/", label: "Mitt arbetssätt" },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -11,16 +12,24 @@ const currentPath = Astro.url.pathname;
 
 <header class="site-header">
   <nav class="nav">
-    <a href="/" class="logo">KN</a>
+    <a href={baseUrl} class="logo">KN</a>
     <ul class="nav-links">
       {
-        navLinks.map(({ href, label }) => (
-          <li>
-            <a href={href} class={currentPath === href || (href !== '/' && currentPath.startsWith(href)) ? 'active' : ''}>
-              {label}
-            </a>
-          </li>
-        ))
+        navLinks.map(({ path, label }) => {
+          const href = `${baseUrl}${path}`;
+          const isActive =
+            path === ""
+              ? currentPath === baseUrl
+              : currentPath === href || currentPath.startsWith(href);
+
+          return (
+            <li>
+              <a href={href} class={isActive ? "active" : ""}>
+                {label}
+              </a>
+            </li>
+          );
+        })
       }
     </ul>
   </nav>

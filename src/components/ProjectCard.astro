@@ -11,20 +11,29 @@ const { title, description, tags, slug, date } = Astro.props;
 ---
 
 <article class="project-card">
-  <a href={`/projects/${slug}`} class="card-link">
+  <a href={`${import.meta.env.BASE_URL}projects/${slug}/`} class="card-link">
     <div class="card-body">
       <h2 class="card-title">{title}</h2>
-      {date && (
-        <time class="card-date" datetime={date.toISOString()}>
-          {date.toLocaleDateString('sv-SE', { year: 'numeric', month: 'long' })}
-        </time>
-      )}
+      {
+        date && (
+          <time class="card-date" datetime={date.toISOString()}>
+            {date.toLocaleDateString("sv-SE", {
+              year: "numeric",
+              month: "long",
+            })}
+          </time>
+        )
+      }
       <p class="card-description">{description}</p>
-      {tags && tags.length > 0 && (
-        <ul class="card-tags">
-          {tags.map((tag) => <li class="tag">{tag}</li>)}
-        </ul>
-      )}
+      {
+        tags && tags.length > 0 && (
+          <ul class="card-tags">
+            {tags.map((tag) => (
+              <li class="tag">{tag}</li>
+            ))}
+          </ul>
+        )
+      }
     </div>
     <span class="card-arrow">→</span>
   </a>
@@ -35,7 +44,9 @@ const { title, description, tags, slug, date } = Astro.props;
     background-color: #1e293b;
     border: 1px solid #334155;
     border-radius: 12px;
-    transition: border-color 0.2s, transform 0.2s;
+    transition:
+      border-color 0.2s,
+      transform 0.2s;
   }
 
   .project-card:hover {
