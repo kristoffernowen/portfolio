@@ -1,6 +1,7 @@
 ---
 title: "DotNet REST API"
 description: "A RESTful API built with ASP.NET Core, featuring JWT authentication and Entity Framework Core."
+summary: "A compact API project focused on the core building blocks of a production-oriented backend: authentication, authorization, persistence, and documentation."
 date: 2024-03-10
 tags: ["dotnet", "csharp", "rest-api", "jwt", "ef-core"]
 github: "https://github.com/kristoffernowen/dotnet-api"

@@ -1,6 +1,7 @@
 ---
 title: "ContrlStatusChecker - uppdrag hos Contrl AB"
 description: "Ett automatiserat övervakningssystem som kontrollerar driftsstatus hos finansiella tjänsteleverantörer och skickar e-postnotifieringar vid störningar."
+summary: "Ett proof-of-concept för driftövervakning som samlar status från flera leverantörer och gör det enkelt att upptäcka samt kommunicera störningar snabbt."
 date: 2026-04-02
 tags:
   [

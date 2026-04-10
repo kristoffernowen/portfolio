@@ -1,6 +1,7 @@
 ---
 title: "Email Service"
 description: "A microservice for sending transactional emails using .NET and SendGrid."
+summary: "A small infrastructure-focused service for reliable transactional email delivery, with templating and retry behavior built in from the start."
 date: 2024-01-15
 tags: ["dotnet", "csharp", "microservice", "sendgrid"]
 github: "https://github.com/kristoffernowen/email-service"

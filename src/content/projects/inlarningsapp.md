@@ -1,6 +1,7 @@
 ---
 title: "Inlärningsapp - hobbyprojekt"
 description: "En webbapp för fakta-inlärning där användare skapar egna övningar, med fokus på Clean Architecture, CQRS och praktisk TDD-erfarenhet."
+summary: "Ett fullstackprojekt för egenstyrd fakta-inlärning där användare bygger övningar själva och får direkt återkoppling genom ett separat API och webbgränssnitt."
 date: 2026-04-02
 tags:
   [

@@ -4,13 +4,14 @@ import DefaultLayout from "./DefaultLayout.astro";
 interface Props {
   title: string;
   description?: string;
+  summary?: string;
   date?: Date;
   tags?: string[];
   github?: string;
   live?: string;
 }
 
-const { title, description, date, tags, github, live } = Astro.props as Props;
+const { title, description, summary, date, tags, github, live } = Astro.props as Props;
 ---
 
 <DefaultLayout title={title} description={description}>
@@ -18,6 +19,7 @@ const { title, description, date, tags, github, live } = Astro.props as Props;
     <header class="project-header">
       <h1>{title}</h1>
       {description && <p class="description">{description}</p>}
+      {summary && <p class="summary">{summary}</p>}
       <div class="meta">
         {
           date && (
@@ -67,11 +69,97 @@ const { title, description, date, tags, github, live } = Astro.props as Props;
         }
       </div>
     </header>
-    <div class="content">
+    <div class="content" data-project-content>
       <slot />
     </div>
   </article>
 </DefaultLayout>
+
+<script>
+  const content = document.querySelector<HTMLElement>('[data-project-content]');
+
+  if (content && !content.dataset.enhanced) {
+    const children = Array.from(content.children);
+    const sections: Array<{ heading: HTMLHeadingElement; nodes: Element[] }> = [];
+    const introNodes: Element[] = [];
+    let currentSection: { heading: HTMLHeadingElement; nodes: Element[] } | null = null;
+
+    for (const child of children) {
+      if (child.tagName === 'H2') {
+        currentSection = { heading: child as HTMLHeadingElement, nodes: [] };
+        sections.push(currentSection);
+        continue;
+      }
+
+      if (currentSection) {
+        currentSection.nodes.push(child);
+      } else {
+        introNodes.push(child);
+      }
+    }
+
+    if (sections.length > 0) {
+      content.replaceChildren(...introNodes);
+
+      const accordionSections: HTMLElement[] = [];
+
+      const setExpandedSection = (indexToOpen: number | null) => {
+        accordionSections.forEach((section, sectionIndex) => {
+          const button = section.querySelector<HTMLButtonElement>('[data-accordion-trigger]');
+          const panel = section.querySelector<HTMLElement>('[data-accordion-panel]');
+          const isExpanded = indexToOpen === sectionIndex;
+
+          if (!button || !panel) {
+            return;
+          }
+
+          button.setAttribute('aria-expanded', String(isExpanded));
+          panel.hidden = !isExpanded;
+          section.dataset.state = isExpanded ? 'open' : 'closed';
+        });
+      };
+
+      sections.forEach((section, sectionIndex) => {
+        const label = section.heading.textContent?.trim() ?? '';
+        const accordionSection = document.createElement('section');
+        const header = document.createElement('h2');
+        const button = document.createElement('button');
+        const panel = document.createElement('div');
+        const panelId = `project-panel-${sectionIndex}`;
+
+        accordionSection.className = 'project-section project-accordion-item';
+        header.className = 'project-accordion-heading';
+
+        button.type = 'button';
+        button.className = 'project-accordion-trigger';
+        button.textContent = label;
+        button.setAttribute('data-accordion-trigger', '');
+        button.setAttribute('aria-controls', panelId);
+        button.setAttribute('aria-expanded', String(sectionIndex === 0));
+
+        panel.id = panelId;
+        panel.className = 'project-accordion-panel';
+        panel.setAttribute('data-accordion-panel', '');
+        panel.hidden = sectionIndex !== 0;
+        panel.append(...section.nodes);
+
+        button.addEventListener('click', () => {
+          const isExpanded = button.getAttribute('aria-expanded') === 'true';
+          setExpandedSection(isExpanded ? null : sectionIndex);
+        });
+
+        header.append(button);
+        accordionSection.append(header, panel);
+        accordionSections.push(accordionSection);
+        content.append(accordionSection);
+      });
+
+      setExpandedSection(0);
+
+      content.dataset.enhanced = 'true';
+    }
+  }
+</script>
 
 <style>
   .project {
@@ -95,7 +183,15 @@ const { title, description, date, tags, github, live } = Astro.props as Props;
   .description {
     color: #94a3b8;
     font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .summary {
+    color: #cbd5e1;
+    font-size: 1rem;
+    line-height: 1.7;
     margin-bottom: 1rem;
+    max-width: 62ch;
   }
 
   .meta {
@@ -141,7 +237,7 @@ const { title, description, date, tags, github, live } = Astro.props as Props;
     font-size: 1.4rem;
     font-weight: 600;
     color: #f1f5f9;
-    margin: 1.5rem 0 0.75rem;
+    margin: 0 0 0.75rem;
   }
 
   .content :global(h3) {
@@ -188,5 +284,73 @@ const { title, description, date, tags, github, live } = Astro.props as Props;
   .content :global(pre code) {
     background: none;
     padding: 0;
+  }
+
+  .project-section + .project-section {
+    margin-top: 1rem;
+  }
+
+  .project-accordion-item {
+    border: 1px solid #334155;
+    border-radius: 12px;
+    background-color: #0f172a;
+    overflow: hidden;
+  }
+
+  .project-accordion-heading {
+    margin: 0;
+  }
+
+  .project-accordion-trigger {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.1rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+  }
+
+  .project-accordion-trigger:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: -2px;
+  }
+
+  .project-accordion-trigger::after {
+    content: "+";
+    color: #60a5fa;
+    font-size: 1.2rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-left: 1rem;
+  }
+
+  .project-accordion-item[data-state='open'] .project-accordion-trigger {
+    border-bottom: 1px solid #334155;
+  }
+
+  .project-accordion-item[data-state='open'] .project-accordion-trigger::after {
+    content: "−";
+  }
+
+  .project-accordion-panel {
+    padding: 1rem 1.1rem 0.4rem;
+  }
+
+  @media (max-width: 640px) {
+    .project-accordion-trigger {
+      padding: 0.9rem 1rem;
+    }
+
+    .project-accordion-panel {
+      padding: 0.9rem 1rem 0.3rem;
+    }
   }
 </style>

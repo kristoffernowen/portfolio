@@ -1,6 +1,7 @@
 ---
 title: "Grammatikapp - hobbyprojekt"
 description: "En app för att träna svensk grammatik med fokus på ordföljd, numerus och tempus, byggd med .NET API och Blazor WebAssembly."
+summary: "Ett utbildningsprojekt som omsätter regler i svensk grammatik till konkret träningslogik och visar resultaten i en interaktiv klient."
 date: 2026-04-02
 tags:
   [
